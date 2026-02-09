@@ -1,7 +1,6 @@
 using StackExchange.Redis;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
-
 namespace GameServer.Data;
 
 /// <summary>
