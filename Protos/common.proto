@@ -1,0 +1,135 @@
+syntax = "proto3";
+
+package game.protocol;
+
+option csharp_namespace = "GameServer.Protocol";
+
+// ========== 通用消息 ==========
+
+// 错误码
+enum ErrorCode {
+    SUCCESS = 0;
+    UNKNOWN_ERROR = 1;
+    NOT_AUTHENTICATED = 2;
+    INVALID_PARAMS = 3;
+    PLAYER_NOT_FOUND = 4;
+    ALREADY_LOGGED_IN = 5;
+    LOGIN_FAILED = 6;
+    REGISTER_FAILED = 7;
+    USERNAME_EXISTS = 8;
+    INVALID_TOKEN = 9;
+    SESSION_EXPIRED = 10;
+}
+
+// 通用响应
+message CommonResponse {
+    int32 code = 1;
+    string message = 2;
+}
+
+// 向量3
+message Vector3 {
+    float x = 1;
+    float y = 2;
+    float z = 3;
+}
+
+// 玩家基本信息
+message PlayerInfo {
+    int64 player_id = 1;
+    string name = 2;
+    int32 level = 3;
+    int64 exp = 4;
+    int32 scene_id = 5;
+    Vector3 position = 6;
+}
+
+// ========== 登录相关 ==========
+
+// 登录请求
+message C2S_Login {
+    string username = 1;
+    string password = 2;
+    string device_id = 3;
+}
+
+// 登录响应
+message S2C_Login {
+    int32 code = 1;
+    string message = 2;
+    string token = 3;
+    PlayerInfo player = 4;
+}
+
+// 注册请求
+message C2S_Register {
+    string username = 1;
+    string password = 2;
+    string email = 3;
+}
+
+// 注册响应
+message S2C_Register {
+    int32 code = 1;
+    string message = 2;
+}
+
+// 重连请求
+message C2S_Reconnect {
+    string token = 1;
+}
+
+// 重连响应
+message S2C_Reconnect {
+    int32 code = 1;
+    string message = 2;
+    PlayerInfo player = 3;
+}
+
+// ========== 心跳 ==========
+
+// 心跳请求
+message C2S_Heartbeat {
+    int64 client_time = 1;
+}
+
+// 心跳响应
+message S2C_Heartbeat {
+    int64 server_time = 1;
+}
+
+// ========== 角色相关 ==========
+
+// 角色列表请求
+message C2S_GetPlayerList {
+}
+
+// 角色列表响应
+message S2C_GetPlayerList {
+    int32 code = 1;
+    repeated PlayerInfo players = 2;
+}
+
+// 创建角色请求
+message C2S_CreatePlayer {
+    string name = 1;
+}
+
+// 创建角色响应
+message S2C_CreatePlayer {
+    int32 code = 1;
+    string message = 2;
+    PlayerInfo player = 3;
+}
+
+// 选择角色请求
+message C2S_SelectPlayer {
+    int64 player_id = 1;
+}
+
+// 选择角色响应
+message S2C_SelectPlayer {
+    int32 code = 1;
+    string message = 2;
+    PlayerInfo player = 3;
+}

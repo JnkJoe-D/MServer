@@ -1,0 +1,113 @@
+# .NET 项目 .gitignore
+
+## Build results
+bin/
+obj/
+out/
+
+## Visual Studio
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+
+## Rider
+.idea/
+
+## User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Build Results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+*.sap
+
+## ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+## NuGet
+*.nupkg
+*.snupkg
+packages/
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+
+## Publish folders
+publish/
+PublishProfiles/
+
+## .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Logs
+logs/
+*.log
+
+## Database
+*.db
+*.sqlite
+*.sqlite3
+
+## Sensitive configuration files (重要！)
+appsettings.Production.json
+appsettings.Staging.json
+appsettings.Development.json
+!appsettings.json
+
+## Environment variables
+.env
+.env.local
+.env.production
+
+## OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+## Temporary files
+*.tmp
+*.temp
+*.swp
+*~
+
+## Node modules (if using frontend)
+node_modules/
+
+## Compiled Protobuf files (optional, depends on your workflow)
+# *.pb.cs
+
+## Test coverage
+coverage/
+*.coverage
+*.coveragexml
+
+## Backup files
+*.bak
+*.backup

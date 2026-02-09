@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package game.protocol;
+
+option csharp_namespace = "GameServer.Protocol";
+
+import "common.proto";
+
+// ========== 移动同步 ==========
+
+// 移动请求
+message C2S_Move {
+    Vector3 position = 1;
+    Vector3 direction = 2;
+    float speed = 3;
+}
+
+// 移动广播（服务端推送给其他玩家）
+message S2C_PlayerMove {
+    int64 player_id = 1;
+    Vector3 position = 2;
+    Vector3 direction = 3;
+    float speed = 4;
+}
+
+// ========== AOI 相关 ==========
+
+// 玩家进入视野
+message S2C_PlayerEnterAOI {
+    PlayerInfo player = 1;
+}
+
+// 玩家离开视野
+message S2C_PlayerLeaveAOI {
+    int64 player_id = 1;
+}
+
+// 视野内玩家列表
+message S2C_AOIPlayers {
+    repeated PlayerInfo players = 1;
+}
+
+// ========== 场景相关 ==========
+
+// 进入场景请求
+message C2S_EnterScene {
+    int32 scene_id = 1;
+}
+
+// 进入场景响应
+message S2C_EnterScene {
+    int32 code = 1;
+    string message = 2;
+    int32 scene_id = 3;
+    Vector3 spawn_position = 4;
+    repeated PlayerInfo players_in_aoi = 5;
+}
+
+// 离开场景请求
+message C2S_LeaveScene {
+}
+
+// 离开场景响应
+message S2C_LeaveScene {
+    int32 code = 1;
+}

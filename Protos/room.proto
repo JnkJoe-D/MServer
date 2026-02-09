@@ -1,0 +1,176 @@
+syntax = "proto3";
+
+package game.protocol;
+
+option csharp_namespace = "GameServer.Protocol";
+
+import "common.proto";
+
+// ========== 房间相关 ==========
+
+// 房间信息
+message RoomInfo {
+    int32 room_id = 1;
+    string name = 2;
+    int64 owner_id = 3;
+    string owner_name = 4;
+    int32 player_count = 5;
+    int32 max_players = 6;
+    int32 room_type = 7;  // 1v1, 3v3, 5v5
+    int32 status = 8;     // 0=等待, 1=准备中, 2=战斗中
+}
+
+// 房间内玩家
+message RoomPlayer {
+    int64 player_id = 1;
+    string name = 2;
+    int32 team = 3;
+    bool is_ready = 4;
+    bool is_owner = 5;
+}
+
+// 创建房间请求
+message C2S_CreateRoom {
+    string name = 1;
+    int32 room_type = 2;
+    int32 max_players = 3;
+}
+
+// 创建房间响应
+message S2C_CreateRoom {
+    int32 code = 1;
+    string message = 2;
+    RoomInfo room = 3;
+}
+
+// 获取房间列表
+message C2S_GetRoomList {
+    int32 page = 1;
+    int32 page_size = 2;
+}
+
+// 房间列表响应
+message S2C_GetRoomList {
+    int32 code = 1;
+    repeated RoomInfo rooms = 2;
+    int32 total = 3;
+}
+
+// 加入房间
+message C2S_JoinRoom {
+    int32 room_id = 1;
+}
+
+// 加入房间响应
+message S2C_JoinRoom {
+    int32 code = 1;
+    string message = 2;
+    RoomInfo room = 3;
+    repeated RoomPlayer players = 4;
+}
+
+// 离开房间
+message C2S_LeaveRoom {
+}
+
+// 离开房间响应
+message S2C_LeaveRoom {
+    int32 code = 1;
+}
+
+// 玩家加入房间广播
+message S2C_PlayerJoinRoom {
+    RoomPlayer player = 1;
+}
+
+// 玩家离开房间广播
+message S2C_PlayerLeaveRoom {
+    int64 player_id = 1;
+}
+
+// 准备/取消准备
+message C2S_Ready {
+    bool is_ready = 1;
+}
+
+// 准备状态广播
+message S2C_PlayerReady {
+    int64 player_id = 1;
+    bool is_ready = 2;
+}
+
+// 开始游戏（房主）
+message C2S_StartGame {
+}
+
+// 游戏开始广播
+message S2C_GameStart {
+    int32 countdown = 1;
+}
+
+// ========== 帧同步相关 ==========
+
+// 帧输入
+message FrameInput {
+    int64 player_id = 1;
+    bytes input_data = 2;
+}
+
+// 客户端帧输入
+message C2S_FrameInput {
+    int32 frame = 1;
+    bytes input_data = 2;
+}
+
+// 服务端帧数据广播
+message S2C_FrameData {
+    int32 frame = 1;
+    repeated FrameInput inputs = 2;
+}
+
+// 游戏结束
+message S2C_GameEnd {
+    int32 winner_team = 1;
+    int32 duration = 2;
+}
+
+// ========== 匹配相关 ==========
+
+// 开始匹配
+message C2S_StartMatch {
+    int32 match_type = 1;  // 1v1, 3v3, 5v5
+}
+
+// 开始匹配响应
+message S2C_StartMatch {
+    int32 code = 1;
+    string message = 2;
+}
+
+// 取消匹配
+message C2S_CancelMatch {
+}
+
+// 取消匹配响应
+message S2C_CancelMatch {
+    int32 code = 1;
+}
+
+// 匹配成功
+message S2C_MatchSuccess {
+    int32 room_id = 1;
+    int32 countdown = 2;
+}
+
+// 匹配确认
+message C2S_MatchConfirm {
+    bool accept = 1;
+}
+
+// 匹配确认结果
+message S2C_MatchConfirmResult {
+    int32 code = 1;
+    string message = 2;
+    int32 confirmed_count = 3;
+    int32 total_count = 4;
+}
